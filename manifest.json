@@ -1,0 +1,9 @@
+{
+  "name": "Debbi Tracker",
+  "short_name": "Debbi Tracker",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f8",
+  "theme_color": "#18212b",
+  "description": "Real-time medication, food and symptom tracker."
+}
