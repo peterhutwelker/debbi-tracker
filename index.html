@@ -90,7 +90,16 @@ function buildModal(e){
  let dt=`<label>Time</label><input id="ts" type="datetime-local" value="${e.timestamp.slice(0,16)}">`;
  if(mode==='med') modalBody.innerHTML=dt+'<label>Medication</label>'+chips(meds,[e.med])+'<label>Amount</label>'+chips(amounts,[e.amount])+'<label>Note (optional)</label><input id="note" value="'+esc(e.note||'')+'">';
  if(mode==='food') modalBody.innerHTML=dt+'<label>Food</label>'+chips(meals,[e.meal])+'<label>Protein</label>'+chips(protein,[e.protein])+'<label>What she ate (optional)</label><input id="note" value="'+esc(e.note||'')+'" placeholder="Toast, cereal, sandwich...">';
- if(mode==='symptoms') modalBody.innerHTML=dt+'<label>Select all that apply</label>'+chips(symptoms,e.symptoms||[])+'<label>Note (optional)</label><textarea id="note">'+esc(e.note||'')+'</textarea>';
+ if(mode==='symptoms') modalBody.innerHTML=dt+'<label>Select all that apply</label>'+chips(symptoms,e.symptoms||[])+
+ '<label>Add another symptom</label><div style="display:flex;gap:7px"><input id="customSymptom" placeholder="Type symptom"><button type="button" class="smallbtn" onclick="addCustomSymptom()">Add</button></div>'+
+ '<label>Note (optional)</label><textarea id="note">'+esc(e.note||'')+'</textarea>';
+}
+function addCustomSymptom(){
+ let i=document.getElementById('customSymptom'); let v=(i?.value||'').trim(); if(!v)return;
+ picked.add(v);
+ let choices=modalBody.querySelector('.choices');
+ let b=document.createElement('button'); b.type='button'; b.className='choice on'; b.dataset.v=v; b.textContent=v; b.onclick=()=>toggleChoice(b);
+ choices.appendChild(b); i.value='';
 }
 function selectedButtons(){return [...modalBody.querySelectorAll('.choice.on')].map(x=>x.dataset.v)}
 function saveEntry(){
